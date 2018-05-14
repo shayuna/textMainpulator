@@ -10,6 +10,18 @@ const itemsIsLoading1 = (bool)=> ({
     isLoading: bool
 });
 
+const setSelectedNode1 = (selectedID)=>({
+    type:"NODE_SELECTED",
+    selectedID,
+})
+
+export function setSelectedNode(selectedID){
+    return {
+        type:"NODE_SELECTED",
+        selectedID,
+    }
+}
+
 const itemsFetchDataSuccess = (items) => ({
     type: 'ITEMS_FETCH_DATA_SUCCESS',
     items
@@ -62,6 +74,15 @@ export function itemsIsLoading(state = false, action) {
 
         default:
             return state;
+    }
+}
+
+export function nodeSelection(state=null,action){
+    switch(action.type){
+        case "NODE_SELECTED":
+            return state && state.selectedID===action.selectedID ? null : action.selectedID;
+        default:
+            return null;
     }
 }
 

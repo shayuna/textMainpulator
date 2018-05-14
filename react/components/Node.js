@@ -1,5 +1,6 @@
 import React,{Component} from "react";
 import { connect } from 'react-redux';
+import { setSelectedNode } from './items';
 
 class Node extends Component {
     constructor(props){
@@ -8,13 +9,24 @@ class Node extends Component {
             id:props.id,
         }
     }
+    componentDidMount(){
+        
+    }
     render(){
+        console.log (this.state.id+" *** " + this.props.NodesManager);
+        let oNodesManager=null;
+        if (this.props.NodesManager){
+            oNodesManager=this.props.NodesManager;
+        }
+        else{
+            oNodesManager=this.props.legacyNodesManager;
+        }
         return (
-            <article>
-                <article style={styles.node}>{this.props.name}</article>
+            <article style={styles.node}>
+                <article onClick={()=>this.props.setSelectedNode(this.props.id)}>{this.props.name}</article>
                 {
-                    this.props.NodesManager && this.props.NodesManager.getNodeByID(this.state.id).children.map((elm)=>(
-                        <Node key={elm.id} id={elm.id} name={elm.name}/>
+                    oNodesManager.getNodeByID(this.state.id) && oNodesManager.getNodeByID(this.state.id).children.map((elm)=>(
+                        <Node key={elm.id} id={elm.id} name={elm.name} legacyNodesManager={oNodesManager}/>
                     ))
                 }
             </article>
@@ -24,16 +36,24 @@ class Node extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        NodesManager: state.items,
+        NodesManager: state.items
     };
 };
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setSelectedNode:(id)=>dispatch(setSelectedNode(id))
+    };
+};
+
+
 const styles = {
     node:{
-        color:"red",
+        fontSize:"1.5rem",
         marginLeft:"20px",
+        cursor:"pointer",
     }
 }
 
-export default connect(mapStateToProps)(Node);
+export default connect(mapStateToProps,mapDispatchToProps)(Node);
 

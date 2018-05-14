@@ -24,10 +24,12 @@ class ItemList extends Component {
 */
         if (this.props.NodesManager.arTrees){
             return (
-                <article>
+                <article style={styles.mainWrapper}>
                 {
                     this.props.NodesManager.arTrees.map((elm) => (
-                        <Node key={elm.id} id={elm.id} name={elm.name}/>
+                        <article key={elm.id} style={styles.treeWrapper}>
+                            <Node id={elm.id} name={elm.name}/>
+                        </article>
                     ))
                 }
                 </article>
@@ -52,6 +54,15 @@ const mapDispatchToProps = (dispatch) => {
         fetchData: (url) => dispatch(itemsFetchData(url))
     };
 };
+
+const styles = {
+    mainWrapper:{
+        display:"flex",
+    },
+    treeWrapper:{
+        margin:"1em",
+    }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(ItemList);
 

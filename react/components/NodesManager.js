@@ -59,7 +59,7 @@ const NodesManager = {
         }
         else{
             for (let ii=0;ii<oNode.children.length;ii++){
-                let oNewNode=this.searchInNode(oNode.children[ii],id);
+                oNewNode=this.searchInNode(oNode.children[ii],id);
                 if(oNewNode) break;
             }
         }
