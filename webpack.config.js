@@ -2,7 +2,7 @@ const path = require("path");
 const myPath=path.join(__dirname,"public","scripts");
 console.log (myPath);
 module.exports = {
-   entry:"./react/components/textManipulator.js",
+   entry:"./react/components/thunk_main.js",
    output:{
        path:myPath,
        filename:'bundle.js'
