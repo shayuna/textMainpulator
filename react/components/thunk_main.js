@@ -8,9 +8,17 @@ import ItemList from './ItemList';
 
 const store = configureStore(); // You can also pass in an initialState here
 
-ReactDOM.render(
-    <Provider store={store}>
-        <ItemList />
-    </Provider>,
-    document.querySelector('#eRoot')
-);
+const renderApp = ()=>{
+    ReactDOM.render(
+        <Provider store={store}>
+            <ItemList />
+        </Provider>,
+        document.querySelector('#eRoot')
+    );
+}
+
+store.subscribe(()=>{
+    renderApp();
+})
+
+renderApp();

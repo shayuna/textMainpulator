@@ -10,17 +10,27 @@ const itemsIsLoading1 = (bool)=> ({
     isLoading: bool
 });
 
-const setSelectedNode1 = (selectedID)=>({
+export const setSelectedNode = (selectedID)=>({
     type:"NODE_SELECTED",
     selectedID,
 })
 
-export function setSelectedNode(selectedID){
-    return {
-        type:"NODE_SELECTED",
-        selectedID,
-    }
-}
+export const addNode = (name,pid)=>({
+    type:"ADD_NODE",
+    name,
+    pid
+});
+
+export const updateNode = (id,name)=>({
+    type:"UPDATE_NODE",
+    id,
+    name,
+});
+
+export const delNode = (id)=>({
+    type:"DEL_NODE",
+    id
+})
 
 const itemsFetchDataSuccess = (items) => ({
     type: 'ITEMS_FETCH_DATA_SUCCESS',
@@ -80,7 +90,23 @@ export function itemsIsLoading(state = false, action) {
 export function nodeSelection(state=null,action){
     switch(action.type){
         case "NODE_SELECTED":
-            return state && state.selectedID===action.selectedID ? null : action.selectedID;
+            return state===action.selectedID ? null : action.selectedID;
+        default:
+            return null;
+    }
+}
+
+export function updateNodes(state=null,action){
+    switch(action.type){
+        case "ADD_NODE":
+            NodesManager.add(action.name,action.pid);
+            return NodesManager;
+        case "UPDATE_NODE":
+            NodesManager.getNodeByID(action.id).name=action.name;
+            return NodesManager;
+        case "DEL_NODE":
+            NodesManager.delNodeByID(action.id);
+            return NodesManager;
         default:
             return null;
     }

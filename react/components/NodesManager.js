@@ -1,8 +1,34 @@
 
 const NodesManager = {
     arTrees:[],
+    maxID:0,
+    add:function(name,pid){
+        const oNode = new Node({id:this.getNewID(),name,pid}),oParent=this.getNodeByID(pid);
+        if (oParent)oParent.children.push(oNode);
+    },
+    getNewID:function(){
+        this.maxID+=1;
+        return this.maxID;
+    },
+    delNodeByID:function(id){
+        const oNode=this.getNodeByID(id);
+        let bResult=false;
+        if (oNode){
+            const oParent=this.getNodeByID(oNode.pid);
+            if (oParent){
+                for (let ii=0;ii<oParent.children.length;ii++){
+                    if (oParent.children[ii].id===id){
+                        oParent.children.splice(ii,1);
+                        bResult=true;
+                    }
+                }
+            }
+        }
+        return bResult;
+    },
     addFromList:function(arList){
         arList.forEach((elm)=>{
+            if (elm.id>this.maxID)this.maxID=elm.id;
             this.addNode(elm);
         })
         this.createTrees();
